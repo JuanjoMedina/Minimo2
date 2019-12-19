@@ -1,7 +1,10 @@
 package com.eetac.upc.dsa.minimo2;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,9 +20,14 @@ import java.util.List;
 
 public class MyMuseumRecyclerViewAdapter extends RecyclerView.Adapter<MyMuseumRecyclerViewAdapter.ViewHolder> {
     private List<Element> elements;
+    private MainActivity main;
 
-    public MyMuseumRecyclerViewAdapter(List<Element> elements){
+
+
+    public MyMuseumRecyclerViewAdapter(List<Element> elements, MainActivity mainActivity){
+
         this.elements=elements;
+        this.main=mainActivity;
     }
 
     @NonNull
@@ -32,6 +40,17 @@ public class MyMuseumRecyclerViewAdapter extends RecyclerView.Adapter<MyMuseumRe
         Element element=elements.get(position);
         holder.adreca.setText(element.getAdrecaNom());
         Picasso.get().load(element.getImatge().get(0)).into(holder.foto);
+        holder.button_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity_detail = new Intent(v.getContext(), MuseumDetail.class);
+                Bundle b = new Bundle();
+                b.putInt("key", holder.getAdapterPosition()); //Your id
+                activity_detail.putExtras(b); //Put your id to your next Intent
+                main.startActivity(activity_detail);
+
+            }
+        });
 
     }
 
@@ -39,16 +58,18 @@ public class MyMuseumRecyclerViewAdapter extends RecyclerView.Adapter<MyMuseumRe
     public int getItemCount() {
         return elements.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private LinearLayout linearLayout;
         private TextView adreca;
         private ImageView foto;
+        private Button button_info;
 
 
         public ViewHolder(View v) {
             super(v);
-            adreca=v.findViewById(R.id.adreca);
-            foto=v.findViewById(R.id.foto);
+            adreca = v.findViewById(R.id.adreca);
+            foto = v.findViewById(R.id.foto);
+            button_info = v.findViewById(R.id.button_info);
             linearLayout = v.findViewById(R.id.linearLayout);
         }
     }

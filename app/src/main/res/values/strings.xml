@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Museums</string>
+    <string name="name">Username</string>
+    <string name="pass">Password</string>
 </resources>
