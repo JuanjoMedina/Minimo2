@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eetac.upc.dsa.minimo2.models.*;
 import com.eetac.upc.dsa.minimo2.models.Museums;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -45,8 +46,9 @@ public class MyMuseumRecyclerViewAdapter extends RecyclerView.Adapter<MyMuseumRe
             public void onClick(View v) {
                 Intent activity_detail = new Intent(v.getContext(), MuseumDetail.class);
                 Bundle b = new Bundle();
-                b.putInt("key", holder.getAdapterPosition()); //Your id
-                activity_detail.putExtras(b); //Put your id to your next Intent
+                Gson gson = new Gson();
+                String myJson = gson.toJson(elements.get(holder.getAdapterPosition()));
+                activity_detail.putExtra("myjson", myJson);
                 main.startActivity(activity_detail);
 
             }
